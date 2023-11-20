@@ -17,7 +17,6 @@ public class SelectionManager : MonoBehaviour
         _rayProvider = GetComponent<IRayProvider>();
         _selector = GetComponent<ISelector>();
     }
-
     private void Update()
     {
         //determine Deselection response
