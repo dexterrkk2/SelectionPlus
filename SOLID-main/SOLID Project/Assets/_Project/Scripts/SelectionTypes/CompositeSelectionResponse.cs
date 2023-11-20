@@ -8,6 +8,7 @@ public class CompositeSelectionResponse : MonoBehaviour, ISelectionResponse, ICh
     [SerializeField] private GameObject selectionResponseHolder;
     private List<ISelectionResponse> _selectionResponses;
     int count;
+    private Transform currentSelection;
     private void Start()
     {
         _selectionResponses = selectionResponseHolder.GetComponents<ISelectionResponse>().ToList();
@@ -15,15 +16,22 @@ public class CompositeSelectionResponse : MonoBehaviour, ISelectionResponse, ICh
     [ContextMenu(itemName:"Next")]
     public void Next()
     {
-        count = (count + 1) % _selectionResponses.Count;
+        if (currentSelection != null)
+        {
+            _selectionResponses[count].OnDeselect(currentSelection);
+            count = (count + 1) % _selectionResponses.Count;
+            _selectionResponses[count].OnSelect(currentSelection);
+        }
     }
     public void OnDeselect(Transform selection)
     {
+        currentSelection = null;
         _selectionResponses[count].OnDeselect(selection);
     }
 
     public void OnSelect(Transform selection)
     {
+        currentSelection = selection;
         if (HasSelection())
         {
             _selectionResponses[count].OnSelect(selection);

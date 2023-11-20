@@ -32,6 +32,4 @@ public class SelectionManager : MonoBehaviour
             _selectionResponse.OnSelect(_currentSelection);
         }
     }
-    
-   
 }
